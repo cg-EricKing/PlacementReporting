@@ -6,6 +6,7 @@ function main() {
     
     var spreadsheet_url = '';
     var spreadsheet = SpreadsheetApp.openByUrl(spreadsheet_url);
+    // Format report to print on correct sheet  - IMPORTANT!!
     var sheet = spreadsheet.getSheets()[0];
     
     var campaignSelector = AdWordsApp
@@ -13,7 +14,7 @@ function main() {
         .forDateRange("LAST_7_DAYS");
   
     var campaignIterator = campaignSelector.get();
-    
+
       while (campaignIterator.hasNext()) {
         // Get campaign stats
         var campaign = campaignIterator.next();
@@ -22,14 +23,14 @@ function main() {
         
         // Generate a report on placements
         var report = AdWordsApp.report(
-        "SELECT DisplayName, Cost, AverageCpm, Ctr, Clicks, Impressions FROM PLACEMENT_PERFORMANCE_REPORT WHERE Impressions > 100 DURING LAST_7_DAYS");
+        "SELECT DisplayName, Cost, Impressions, Ctr, Clicks, AverageCpm FROM PLACEMENT_PERFORMANCE_REPORT WHERE Impressions > 100 DURING LAST_7_DAYS");
         var rows = report.rows();
         while(rows.hasNext()) {
          var row = rows.next();
-          sheet.appendRow([row["DisplayName"], row["Cost"], row["AverageCpm"], row["Ctr"], row["Clicks"], row["Impressions"]]);
+          sheet.appendRow([row["DisplayName"], row["Cost"], row["Impressions"], row["Ctr"], row["Clicks"], row["AverageCpm"]]);
           Logger.log("Printed 7 Day Row");
         }
-        var allString = "SELECT DisplayName, Cost, AverageCpm, Ctr, Clicks, Impressions FROM PLACEMENT_PERFORMANCE_REPORT WHERE Impressions > 100 DURING LAST_30_DAYS";
+        var allString = "SELECT DisplayName, Cost, Impressions, Ctr, Clicks, AverageCpm FROM PLACEMENT_PERFORMANCE_REPORT WHERE Impressions > 100 DURING LAST_30_DAYS";
         Logger.log(allString);
         var allReport = AdWordsApp.report(allString);
         
@@ -40,10 +41,10 @@ function main() {
           sheet.appendRow([
             allReportRow["DisplayName"],
             allReportRow["Cost"],
-            allReportRow["AverageCpm"],
+            allReportRow["Impressions"],
             allReportRow["Ctr"],
             allReportRow["Clicks"],
-            allReportRow["Impressions"]]);
+            allReportRow["AverageCpm"]]);
           Logger.log("Printed 30 Day Row");
         }
       }
