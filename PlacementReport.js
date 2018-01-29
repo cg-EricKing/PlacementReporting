@@ -4,7 +4,7 @@ function main() {
     
     Logger.log("Account: " + accountName);
     
-    var spreadsheet_url = '';
+    var spreadsheet_url = 'https://docs.google.com/spreadsheets/d/1yCToteUPvD6xwBFX_Xorj09tW5Fav-DCxWllG5EqlhE/edit?usp=sharing';
     var spreadsheet = SpreadsheetApp.openByUrl(spreadsheet_url);
     // Format report to print on correct sheet  - IMPORTANT!!
     var sheet = spreadsheet.getSheets()[0];
